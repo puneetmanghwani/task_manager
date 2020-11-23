@@ -24,18 +24,17 @@ exports.getUser = (req,res,next) => {
 
 exports.getAllUsers = (req,res,next) => {
     User.find()
-    .then(users=>{
-        return res.status(200).send({
-            users: users
-        });
+    .populate('taskList').exec((err,users)=>{
+        console.log(users);
+        console.log(err);
+        if(err){
+            res.json(err);
+        }
+        else{
+            res.json(users)
+        }
     })
-    .catch(err => {
-        return res.status(400).send({
-            message: "Internal Server Error"
-        });
-    });
 }
-
 exports.addUser = (req,res,next) => {
     const { name,designation } = req.body;
     var user = new User({ name,designation });
@@ -150,20 +149,20 @@ exports.retractTaskFromUser = (req,res,next) => {
 }
 
 
-exports.getTasks = (req,res,next) => {
-    const userId = req.params.userId;
-    console.log('hey')
-    // User.findById(userId)
-    User.find()
-    .populate('taskList').exec((err,users)=>{
-        console.log(users);
-        console.log(err);
-        if(err){
-            res.json(err);
-        }
-        else{
-            res.json(users)
-        }
-    })
+// exports.getTasks = (req,res,next) => {
+//     const userId = req.params.userId;
+//     console.log('hey')
+//     // User.findById(userId)
+//     User.find()
+//     .populate('taskList').exec((err,users)=>{
+//         console.log(users);
+//         console.log(err);
+//         if(err){
+//             res.json(err);
+//         }
+//         else{
+//             res.json(users)
+//         }
+//     })
     
-}
+// }
