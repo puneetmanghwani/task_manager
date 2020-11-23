@@ -13,12 +13,17 @@ const UserSchema = new mongoose.Schema({
     }]
 });
 
+
+// method added to every user object which is used to add task in the task list.
 UserSchema.methods.addToTaskList = function(taskId) {
+
+  // finding the task id in task list.
   const taskListIndex = this.taskList.findIndex(cp => {
     return cp._id.toString() === taskId.toString();
   });
   const updatedTaskList= [...this.taskList];
 
+  // if task already exist then just return other wise push the task in task list
   if(taskListIndex >=0 ){
     return this.save();
   }
@@ -30,12 +35,17 @@ UserSchema.methods.addToTaskList = function(taskId) {
   return this.save();
 
 };
+
+// method added to every user object which is used to remove task in the task list.
 UserSchema.methods.removeFromTaskList = function(taskId) {
+
+  // finding the task id in task list.
   const taskListIndex = this.taskList.findIndex(cp => {
     return cp._id.toString() === taskId.toString();
   });
   const updatedTaskList= [...this.taskList];
 
+  // if task exisit then remove the task from task list other wise just return the object
   if(taskListIndex>=0){
     updatedTaskList.splice(taskListIndex,1);
   }
