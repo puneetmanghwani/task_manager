@@ -13,12 +13,14 @@ app.use(bodyParser.json())
 app.use(cookieParser());
 
 const userRoutes = require('./routes/userRoutes');
+const taskRoutes = require('./routes/taskRoutes');
 
 app.use('/users', userRoutes);
+app.use('/tasks', taskRoutes);
 
 mongoose
   .connect(
-    'mongodb+srv://puneet:puneet@cluster0-adp1h.mongodb.net/task_manager?retryWrites=true&w=majority',{useNewUrlParser: true,useUnifiedTopology: true,useCreateIndex:true,useFindAndModify:false}
+    'mongodb+srv://puneet:puneet@cluster0-adp1h.mongodb.net/task?retryWrites=true&w=majority',{useNewUrlParser: true,useUnifiedTopology: true,useCreateIndex:true,useFindAndModify:false}
   )
   .then(result => {
     app.listen(process.env.PORT || 8000);

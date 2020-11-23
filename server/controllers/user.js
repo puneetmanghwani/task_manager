@@ -1,6 +1,39 @@
 
+const task = require('../models/task');
 const User = require('../models/user');
 
+exports.getUser = (req,res,next) => {
+    const userId = req.params.userId;
+    User.findById(userId)
+    .then(user=>{
+        if(user){
+            return res.status(200).json(user);
+        }
+        else{
+            return res.status(400).json("No user with this id");
+        }
+        
+    })
+    .catch(err => {
+        return res.status(400).send({
+            message: "Wrong User id"
+        });
+    });
+}
+
+exports.getAllUsers = (req,res,next) => {
+    User.find()
+    .then(users=>{
+        return res.status(200).send({
+            users: users
+        });
+    })
+    .catch(err => {
+        return res.status(400).send({
+            message: "Internal Server Error"
+        });
+    });
+}
 
 exports.addUser = (req,res,next) => {
     const { name,designation } = req.body;
@@ -13,6 +46,7 @@ exports.addUser = (req,res,next) => {
         });
     })
     .catch(err=>{
+        console.log(err)
         res.status(500).send({
             message: "Internal Server Error"
         });
@@ -68,4 +102,63 @@ exports.deleteUser = (req,res,next) => {
             message: "Wrong User Id" + userId
         });
     })
+}
+
+
+exports.assignTaskToUser = (req,res,next) => {
+    const userId = req.params.userId;
+    const taskId = req.params.taskId;
+
+    User.findById(userId)
+    .then(user=>{
+        user.addToTaskList(taskId)
+        .then(response=>{
+            res.json('Task Assigned');
+        })
+        .catch(err=>{
+            console.log(err)
+            res.json('Error1');
+        })
+    })
+    .catch(err=>{
+        console.log(err)
+        res.json('Error2');
+    })
+    
+}
+
+
+exports.retractTaskFromUser = (req,res,next) => {
+    const userId = req.params.userId;
+    const taskId = req.params.taskId;
+
+    User.findById(userId)
+    .then(user=>{
+        user.removeFromTaskList(taskId)
+        .then(response=>{
+            res.json('Task Removed');
+        })
+        .catch(err=>{
+            res.json('Error');
+        })
+    })
+    .catch(err=>{
+        res.json('Error');
+    })
+}
+
+
+exports.getUserTasks = (req,res,next) => {
+    const userId = req.params.userId;
+
+    User.findById(userId)
+    .populate('taskList').exec((err,tasks)=>{
+        if(err){
+            res.json(err);
+        }
+        else{
+            res.json(tasks)
+        }
+    })
+    
 }
