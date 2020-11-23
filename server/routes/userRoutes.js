@@ -10,6 +10,8 @@ const userController = require('../controllers/user');
 
 router.get('/', userController.getAllUsers);
 
+router.get('/tasks', userController.getTasks);
+
 router.get('/:userId', userController.getUser);
 
 router.post('/', userController.addUser);
@@ -18,7 +20,8 @@ router.put('/:userId', userController.editUser);
 
 router.delete('/:userId', userController.deleteUser);
 
-router.get('/:userId/tasks', userController.getUserTasks);
+
+
 
 router.post('/:userId/tasks/:taskId', userController.assignTaskToUser);
 

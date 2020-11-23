@@ -3,6 +3,7 @@ const task = require('../models/task');
 const User = require('../models/user');
 
 exports.getUser = (req,res,next) => {
+    console.log(1)
     const userId = req.params.userId;
     User.findById(userId)
     .then(user=>{
@@ -54,7 +55,7 @@ exports.addUser = (req,res,next) => {
 }
 
 exports.editUser = (req,res,next) => {
-    
+    console.log(2)
     if(!req.body.name && !req.body.designation) {
         return res.status(400).send({
             message: "No details in request"
@@ -84,6 +85,7 @@ exports.editUser = (req,res,next) => {
 }
 
 exports.deleteUser = (req,res,next) => {
+    console.log(3)
     const userId = req.params.userId;
 
     User.findByIdAndRemove(userId)
@@ -148,16 +150,19 @@ exports.retractTaskFromUser = (req,res,next) => {
 }
 
 
-exports.getUserTasks = (req,res,next) => {
+exports.getTasks = (req,res,next) => {
     const userId = req.params.userId;
-
-    User.findById(userId)
-    .populate('taskList').exec((err,tasks)=>{
+    console.log('hey')
+    // User.findById(userId)
+    User.find()
+    .populate('taskList').exec((err,users)=>{
+        console.log(users);
+        console.log(err);
         if(err){
             res.json(err);
         }
         else{
-            res.json(tasks)
+            res.json(users)
         }
     })
     
