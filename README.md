@@ -32,9 +32,10 @@
  `localhost:3000/task/:TASK`
  --When you click title of a task in all tasks list you will be redirected to this page to edit the task.
  
-**Server- localhost:8000**
+
 
 ## APIs
+**Server- localhost:8000**
 1. **API to get all users**
    
    `localhost:8000/users/`  
