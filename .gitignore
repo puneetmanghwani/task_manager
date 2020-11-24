@@ -1,4 +1,3 @@
-
 # ignoring node modules of server
 server/node_modules/
 
@@ -7,4 +6,5 @@ server/node_modules/
 
 
 # ignoring node modules of client
-client/node_modules/
+frontend/node_modules/
+
