@@ -19,7 +19,9 @@ app.use(cookieParser());
 const userRoutes = require('./routes/userRoutes');
 const taskRoutes = require('./routes/taskRoutes');
 
+// user routes
 app.use('/users', userRoutes);
+// task routes
 app.use('/tasks', taskRoutes);
 
 mongoose
